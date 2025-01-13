@@ -26,7 +26,7 @@ fn list_directory(path: &str, args: &Args) {
         // Short listing
         let files = dir_utils::list_files(path, args.all);
         for file in files {
-            println!("{}  ", file);
+            print!("{}  ", file);
         }
         println!();
     }
