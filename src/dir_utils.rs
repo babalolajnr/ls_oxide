@@ -6,14 +6,17 @@ use std::{
 
 use chrono::{DateTime, Local};
 use humansize::{format_size, BINARY};
+use tabled::Tabled;
 use users::get_user_by_uid;
 
+#[derive(Tabled)]
 pub struct FileInfo {
     pub permissions: String,
     pub size: String,
     pub owner: String,
     pub modified: String,
     pub name: String,
+    #[tabled(skip)]
     pub is_dir: bool,
 }
 

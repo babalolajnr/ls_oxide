@@ -2,6 +2,7 @@ use std::path::Path;
 
 use args::Args;
 use clap::Parser;
+use tabled::{settings::Style, Table};
 
 pub mod args;
 pub mod dir_utils;
@@ -16,12 +17,8 @@ fn list_directory(path: &str, args: &Args) {
     if args.long {
         // Long format listing
         let files = dir_utils::list_files_detailed(path, args.all);
-        for file in files {
-            println!(
-                "{} {} {} {} {}",
-                file.permissions, file.owner, file.size, file.modified, file.name
-            )
-        }
+        let table = Table::new(files).with(Style::blank()).to_string();
+        println!("{}", table)
     } else if args.recursive {
         // Recursive listing
         list_recursive(path, args.all);
