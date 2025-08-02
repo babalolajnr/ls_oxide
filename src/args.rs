@@ -2,9 +2,9 @@ use clap::Parser;
 
 #[derive(Parser)]
 pub struct Args {
-    /// Optional path to list (default to current directory)
+    /// Paths to list (default to current directory if none provided)
     #[arg(default_value = ".")]
-    pub path: String,
+    pub paths: Vec<String>,
 
     #[arg(short, long, help = "Show hidden files")]
     pub all: bool,

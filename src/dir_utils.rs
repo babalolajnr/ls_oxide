@@ -12,9 +12,10 @@ use users::{get_user_by_uid, get_group_by_gid};
 #[derive(Tabled)]
 pub struct FileInfo {
     pub permissions: String,
-    pub size: String,
+    pub links: String,
     pub owner: String,
     pub group: String,
+    pub size: String,
     pub modified: String,
     pub name: String,
     #[tabled(skip)]
@@ -47,6 +48,9 @@ pub fn get_file_info(entry: &fs::DirEntry, human_readable: bool) -> Option<FileI
         if metadata.is_dir() { "d" } else { "-" },
         format_mode(mode)
     );
+
+    // Get number of hard links
+    let links = metadata.nlink().to_string();
 
     // Get file size
     let file_size = metadata.len();
@@ -84,9 +88,10 @@ pub fn get_file_info(entry: &fs::DirEntry, human_readable: bool) -> Option<FileI
 
     Some(FileInfo {
         permissions,
-        size,
+        links,
         owner,
         group,
+        size,
         modified: modified_str,
         name: file_name.to_string(),
         is_dir: metadata.is_dir(),

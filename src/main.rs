@@ -106,5 +106,20 @@ fn list_recursive(path: &str, show_hidden: bool, almost_all: bool, classify: boo
 
 fn main() {
     let args = Args::parse();
-    list_directory(&args.path, &args);
+    
+    // If only one path and it's the default ".", list it without header
+    if args.paths.len() == 1 && args.paths[0] == "." {
+        list_directory(&args.paths[0], &args);
+    } else {
+        // Multiple paths, show headers for each
+        for (i, path) in args.paths.iter().enumerate() {
+            if i > 0 {
+                println!(); // Add blank line between multiple path outputs
+            }
+            if args.paths.len() > 1 {
+                println!("{}:", path);
+            }
+            list_directory(path, &args);
+        }
+    }
 }
